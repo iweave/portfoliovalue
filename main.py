@@ -1,4 +1,8 @@
 import datetime
+import requests
+import urllib
+import json
+
 from dateutil.parser import parse
 
 # function getTransactions(clientId) returns List
@@ -25,7 +29,22 @@ def getTransactions(clientId):
 # function getSecurityPrice(security, target_date)
 # lookup and return security price on target_date
 def getSecurityPrice(security, target_date=str(datetime.datetime.now())):
-  return 10
+  target_date=parse(target_date)
+
+  #If this is a weekend, backup to the previous weekday, will still miss trading holidays
+  this_day=target_date.weekday()
+  if (this_day>4):
+    this_day-=4
+    target_date=target_date-datetime.timedelta(days=this_day)
+
+  # This api only goes back 1 year for free
+  api_url='http://api.marketstack.com/v1/eod'
+  access_key='d77ad5c1c2cfd26c34c0b892d3974670'
+
+  url_call="{0}?access_key={1}&symbols={3}&date_from={2}&date_to={2}".format(api_url,access_key,str(target_date.date()),security)
+  req = requests.get(url_call)
+  r = json.loads(req.content)
+  return r['data'][0]['close']
 
 
 # function portfolioOnDate(clientId, target_date=today) returns Dictionary
@@ -84,7 +103,8 @@ def main():
     now=str(datetime.datetime.now())
     #portfolio=portfolioOnDate(12345)
     portfolio=portfolioOnDate(12345,partialDate)
-    print (portfolioValue(portfolio))
+    #print (portfolioValue(portfolio))
+    #print(getSecurityPrice('AAPL',"2021-01-08"))
 
 if __name__ == "__main__":
     main()
