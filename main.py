@@ -13,10 +13,10 @@ def getTransactions(clientId):
     return[]
 
   transactions = []
-  dataList= [ [12345,"buy","APPL", 10, 76.60, "2020-01-02 16:01:23"],
-              [12345,"buy","APPL", 5, 95.11, "2020-06-05 15:21:56"],
+  dataList= [ [12345,"buy","AAPL", 10, 76.60, "2020-01-02 16:01:23"],
+              [12345,"buy","AAPL", 5, 95.11, "2020-06-05 15:21:56"],
               [12345,"buy","GME", 5, 20.99, "2020-12-21 15:45:24"],
-              [12345,"sell","GME", 5, 145.04, "2021-01-06 18:34:12"]
+              [12345,"sell","GME", 5, 145.04, "2021-01-16 18:34:12"]
             ]
 
   # find matching transactions and append to list
@@ -99,11 +99,13 @@ def portfolioValue(portfolio, target_date=str(datetime.datetime.now())):
 # routes
 
 def main():
-    partialDate="2021-01-01 01:02:03"
+    partialDate="2021-01-08 01:02:03"
     now=str(datetime.datetime.now())
     #portfolio=portfolioOnDate(12345)
     portfolio=portfolioOnDate(12345,partialDate)
-    #print (portfolioValue(portfolio))
+    print (portfolioValue(portfolio))
+    portfolio=portfolioOnDate(12345)
+    print (portfolioValue(portfolio))
     #print(getSecurityPrice('AAPL',"2021-01-08"))
 
 if __name__ == "__main__":
