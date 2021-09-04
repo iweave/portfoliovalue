@@ -1,5 +1,5 @@
 import datetime
-import dateutil
+from dateutil.parser import parse
 
 # function getTransactions(clientId) returns List
 # return a list of client transactions
@@ -10,7 +10,7 @@ def getTransactions(clientId):
 
   transactions = []
   dataList= [ [12345,"buy","APPL", 10, 76.60, "2020-01-02 16:01:23"],
-              [12345,"buy","APPL", 5, 95.11, "2020-06-05 15:21:65"],
+              [12345,"buy","APPL", 5, 95.11, "2020-06-05 15:21:56"],
               [12345,"buy","GME", 5, 20.99, "2020-12-21 15:45:24"],
               [12345,"sell","GME", 5, 145.04, "2021-01-06 18:34:12"]
             ]
@@ -32,12 +32,25 @@ def getTransactions(clientId):
 #     if transaction_method = buy, add security
 #      else, subtract security
 #   if transaction_date > target_date, return portfolio
-def portfolioOnDate(clientId, target_date=datetime.datetime.now()):
+def portfolioOnDate(clientId, target_date=str(datetime.datetime.now())):
   portfolio = {}
   transactions=getTransactions(clientId)
+  target_date=parse(target_date)
 
   for (clientId,activity,securityName,securityCount,securityPrice,transactionDate) in transactions:
-    print(securityName)
+    this_date=parse(transactionDate)
+    if (this_date <= target_date):
+      if (activity=="buy"):
+        print("buy",securityName,securityCount)
+        portfolio[securityName]=portfolio.get(securityName,0)+securityCount
+        print(portfolio[securityName])
+      else:
+        print("sell",securityName,securityCount)
+        portfolio[securityName]=portfolio.get(securityName,0)-securityCount
+        print(portfolio[securityName])
+
+  return portfolio
+
   
 
 
@@ -61,7 +74,9 @@ def portfolioOnDate(clientId, target_date=datetime.datetime.now()):
 
 def main():
     #print(getTransactions(12345))
-    print(portfolioOnDate(12345,datetime.datetime.now()))
+    print(portfolioOnDate(12345))
+    #print(portfolioOnDate(12345,str(datetime.datetime.now())))
+    #print(portfolioOnDate(12345,"2021-01-01 01:02:03"))
 
 if __name__ == "__main__":
     main()
