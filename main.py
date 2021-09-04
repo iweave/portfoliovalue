@@ -1,3 +1,6 @@
+import datetime
+import dateutil
+
 # function getTransactions(clientId) returns List
 # return a list of client transactions
 def getTransactions(clientId):
@@ -18,6 +21,8 @@ def getTransactions(clientId):
       transactions.append(data)
   return transactions
 
+# function getSecurityPrice(security, target_date)
+# lookup and return security price on target_date
 
 
 # function portfolioOnDate(clientId, target_date=today) returns Dictionary
@@ -27,6 +32,14 @@ def getTransactions(clientId):
 #     if transaction_method = buy, add security
 #      else, subtract security
 #   if transaction_date > target_date, return portfolio
+def portfolioOnDate(clientId, target_date=datetime.datetime.now()):
+  portfolio = {}
+  transactions=getTransactions(clientId)
+
+  for (clientId,activity,securityName,securityCount,securityPrice,transactionDate) in transactions:
+    print(securityName)
+  
+
 
 # funtion portfolioValue(portfolio, target_date) returns Long
 # parse portfolio on target_date to determine value
@@ -47,7 +60,8 @@ def getTransactions(clientId):
 # routes
 
 def main():
-    print(getTransactions(12345))
+    #print(getTransactions(12345))
+    print(portfolioOnDate(12345,datetime.datetime.now()))
 
 if __name__ == "__main__":
     main()
