@@ -21,8 +21,11 @@ def getTransactions(clientId):
       transactions.append(data)
   return transactions
 
+
 # function getSecurityPrice(security, target_date)
 # lookup and return security price on target_date
+def getSecurityPrice(security, target_date=str(datetime.datetime.now())):
+  return 10
 
 
 # function portfolioOnDate(clientId, target_date=today) returns Dictionary
@@ -41,13 +44,9 @@ def portfolioOnDate(clientId, target_date=str(datetime.datetime.now())):
     this_date=parse(transactionDate)
     if (this_date <= target_date):
       if (activity=="buy"):
-        print("buy",securityName,securityCount)
         portfolio[securityName]=portfolio.get(securityName,0)+securityCount
-        print(portfolio[securityName])
       else:
-        print("sell",securityName,securityCount)
         portfolio[securityName]=portfolio.get(securityName,0)-securityCount
-        print(portfolio[securityName])
 
   return portfolio
 
@@ -60,6 +59,14 @@ def portfolioOnDate(clientId, target_date=str(datetime.datetime.now())):
 #    get security_value for target_date
 #    adjust total_value by security_value
 #    return total_value
+def portfolioValue(portfolio, target_date=str(datetime.datetime.now())):
+  total_value=0
+
+  for security in portfolio:
+    security_price=getSecurityPrice(security,target_date)
+    total_value+=(portfolio[security]*security_price)
+  return total_value
+
 
 # function getProfitLoss(clientId, start_date, end_date=today) returns Long
 # determine Profit/Loss for portfolio between start_date and end_date
@@ -73,10 +80,11 @@ def portfolioOnDate(clientId, target_date=str(datetime.datetime.now())):
 # routes
 
 def main():
-    #print(getTransactions(12345))
-    print(portfolioOnDate(12345))
-    #print(portfolioOnDate(12345,str(datetime.datetime.now())))
-    #print(portfolioOnDate(12345,"2021-01-01 01:02:03"))
+    partialDate="2021-01-01 01:02:03"
+    now=str(datetime.datetime.now())
+    #portfolio=portfolioOnDate(12345)
+    portfolio=portfolioOnDate(12345,partialDate)
+    print (portfolioValue(portfolio))
 
 if __name__ == "__main__":
     main()
