@@ -95,6 +95,14 @@ def portfolioValue(portfolio, target_date=str(datetime.datetime.now())):
 #  get end_value with portfolioValue
 #  calculate final_value from start_value-end_value
 #  return end_value
+def getProfitLoss(clientId, start_date, end_date=str(datetime.datetime.now())):
+  portfolio=portfolioOnDate(12345,start_date)
+  start_value=portfolioValue(portfolio,start_date)
+  portfolio=portfolioOnDate(12345,end_date)
+  end_value=portfolioValue(portfolio,start_date)
+  return(start_value-end_value)
+
+
 
 # routes
 
@@ -102,11 +110,10 @@ def main():
     partialDate="2021-01-08 01:02:03"
     now=str(datetime.datetime.now())
     #portfolio=portfolioOnDate(12345)
-    portfolio=portfolioOnDate(12345,partialDate)
-    print (portfolioValue(portfolio))
-    portfolio=portfolioOnDate(12345)
-    print (portfolioValue(portfolio))
+    #portfolio=portfolioOnDate(12345,partialDate)
+    #print (portfolioValue(portfolio))
     #print(getSecurityPrice('AAPL',"2021-01-08"))
+    print('${:,.2f}'.format(getProfitLoss(12345,partialDate,now)))
 
 if __name__ == "__main__":
     main()
