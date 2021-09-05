@@ -1,3 +1,4 @@
+from flask import Flask, request
 import datetime
 import requests
 import urllib
@@ -42,6 +43,7 @@ def getSecurityPrice(security, target_date=str(datetime.datetime.now())):
   access_key='d77ad5c1c2cfd26c34c0b892d3974670'
 
   url_call="{0}?access_key={1}&symbols={3}&date_from={2}&date_to={2}".format(api_url,access_key,str(target_date.date()),security)
+  #print(url_call)
   req = requests.get(url_call)
   r = json.loads(req.content)
   return r['data'][0]['close']
@@ -67,6 +69,7 @@ def portfolioOnDate(clientId, target_date=str(datetime.datetime.now())):
       else:
         portfolio[securityName]=portfolio.get(securityName,0)-securityCount
 
+  #print(portfolio)
   return portfolio
 
   
@@ -105,6 +108,24 @@ def getProfitLoss(clientId, start_date, end_date=str(datetime.datetime.now())):
 
 
 # routes
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+  return "Hello World!"
+
+@app.route("/profitloss")
+def profitloss():
+  userId=request.args['userId']
+  start_date=request.args['start_date']
+  end_date=request.args['end_date']
+  final_value=getProfitLoss(userId,start_date,end_date)
+  print("checkpoint")
+  print('${:,.2f}'.format(final_value))
+
+#if __name__ == '__main__':
+#    app.run(host='0.0.0.0', port=5000)
 
 def main():
     partialDate="2021-01-08 01:02:03"
