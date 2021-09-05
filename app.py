@@ -121,11 +121,10 @@ def profitloss():
   start_date=request.args['start_date']
   end_date=request.args['end_date']
   final_value=getProfitLoss(userId,start_date,end_date)
-  print("checkpoint")
-  print('${:,.2f}'.format(final_value))
+  return('${:,.2f}'.format(final_value))
 
-#if __name__ == '__main__':
-#    app.run(host='0.0.0.0', port=5000)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
 
 def main():
     partialDate="2021-01-08 01:02:03"
@@ -136,5 +135,5 @@ def main():
     #print(getSecurityPrice('AAPL',"2021-01-08"))
     print('${:,.2f}'.format(getProfitLoss(12345,partialDate,now)))
 
-if __name__ == "__main__":
-    main()
+#if __name__ == "__main__":
+#    main()
