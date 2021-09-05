@@ -99,9 +99,9 @@ def portfolioValue(portfolio, target_date=str(datetime.datetime.now())):
 #  calculate final_value from start_value-end_value
 #  return end_value
 def getProfitLoss(clientId, start_date, end_date=str(datetime.datetime.now())):
-  portfolio=portfolioOnDate(12345,start_date)
+  portfolio=portfolioOnDate(clientId,start_date)
   start_value=portfolioValue(portfolio,start_date)
-  portfolio=portfolioOnDate(12345,end_date)
+  portfolio=portfolioOnDate(clientId,end_date)
   end_value=portfolioValue(portfolio,start_date)
   return(start_value-end_value)
 
