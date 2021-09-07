@@ -129,6 +129,13 @@ def translist():
   end_date=request.args.get('end_date',str(datetime.datetime.now().date()))
   return(str(portfolioOnDate(userId,end_date)))
 
+@app.route("/quote")
+def quote():
+  security=request.args.get('symbol')
+  end_date=request.args.get('end_date',str(datetime.datetime.now().date()))
+  end_value=getSecurityPrice(security,end_date)
+  return('${:,.2f}'.format(end_value))
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
