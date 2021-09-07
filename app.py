@@ -123,6 +123,12 @@ def profitloss():
   final_value=getProfitLoss(userId,start_date,end_date)
   return('${:,.2f}'.format(final_value))
 
+@app.route("/portfolio")
+def translist():
+  userId=request.args.get('userId',type=int)
+  end_date=request.args.get('end_date',str(datetime.datetime.now().date()))
+  return(str(portfolioOnDate(userId,end_date)))
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
