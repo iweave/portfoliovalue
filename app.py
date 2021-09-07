@@ -117,9 +117,9 @@ def index():
 
 @app.route("/profitloss")
 def profitloss():
-  userId=request.args['userId']
-  start_date=request.args['start_date']
-  end_date=request.args['end_date']
+  userId=request.args.get('userId', type=int)
+  start_date=request.args.get('start_date')
+  end_date=request.args.get('end_date',str(datetime.datetime.now().date()))
   final_value=getProfitLoss(userId,start_date,end_date)
   return('${:,.2f}'.format(final_value))
 
