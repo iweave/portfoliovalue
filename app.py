@@ -43,7 +43,7 @@ def getSecurityPrice(security, target_date=str(datetime.datetime.now())):
   access_key='d77ad5c1c2cfd26c34c0b892d3974670'
 
   url_call="{0}?access_key={1}&symbols={3}&date_from={2}&date_to={2}".format(api_url,access_key,str(target_date.date()),security)
-  #print(url_call)
+  print(url_call)
   req = requests.get(url_call)
   r = json.loads(req.content)
   return r['data'][0]['close']
@@ -136,6 +136,11 @@ def quote():
   end_value=getSecurityPrice(security,end_date)
   return('${:,.2f}'.format(end_value))
 
+@app.route("/listem")
+def listem():
+  userId=request.args.get('userId',type=int)
+  return(str(getTransactions(userId)))
+#
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
